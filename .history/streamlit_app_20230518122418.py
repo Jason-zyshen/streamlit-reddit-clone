@@ -1,12 +1,9 @@
-import json
 import streamlit as st
 from google.cloud import firestore
-from google.oauth2 import service_account
 
 
-key_dict = json.loads(st.secrets["textkey"])
-creds = service_account.Credentials.from_service_account_info(key_dict)
-db = firestore.Client(credentials=creds)
+# Authenticate to Firestore with the JSON account key.
+db = firestore.Client.from_service_account_json("firestore-key.json")
 
 
 # Streamlit widgets to let a user create a new post
@@ -27,8 +24,8 @@ if title and url and submit:
 posts_ref = db.collection("posts")
 for doc in posts_ref.stream():
     post = doc.to_dict()
-    title = post["title"]
+    title = post.title
     url = post["url"]
 
-    st.subheader(f"Post: {title}")
-    st.write(f":link: [{url}]({url})")
+    # st.subheader(f"Post: {title}")
+    # st.write(f":link: [{url}]({url})")

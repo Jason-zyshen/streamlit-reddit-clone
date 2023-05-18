@@ -1,6 +1,5 @@
 # Firestore
 firestore-key.json
-secrets.toml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
