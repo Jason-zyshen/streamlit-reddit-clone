@@ -4,6 +4,7 @@ from google.cloud import firestore
 from google.oauth2 import service_account
 
 
+# Securely connect to Firebase
 key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds)
@@ -25,7 +26,9 @@ if title and url and submit:
 
 # And then render each post, using some light Markdown
 posts_ref = db.collection("posts")
-for doc in posts_ref.stream():
+refs = posts_ref.where('title', '==', 'Apple')
+
+for doc in refs.stream():
     post = doc.to_dict()
     title = post["title"]
     url = post["url"]
